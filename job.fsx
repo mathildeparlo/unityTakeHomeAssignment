@@ -22,7 +22,7 @@ let mutable jobQueue = []
 
 /// <summary>             Schedules a given job by adding it to a list  </summary>
 /// <param name="job">    The job to add to the queue                   </param>
-/// <returns>             Updates global variable queue, returns a unit </returns>
+/// <returns>             Updates global variable jobQueue, returns a unit </returns>
 let scheduleJob (job : Job) : unit =
 
   jobQueue <- jobQueue @ [job]
