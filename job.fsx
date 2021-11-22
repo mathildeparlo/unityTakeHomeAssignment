@@ -80,13 +80,13 @@ let job3 = Job(3, 5, false, DateTime.Now)
 let job4 = Job(4, 4, false, new DateTime(2021, 11, 22, 10, 10, 10))
 let job5 = Job(5, 1, true, DateTime.Now)
 
-// Scheduling jobs for the JobQueue
+// Scheduling jobs for jobQueue
 scheduleJob job1
 scheduleJob job2
 scheduleJob job3
 scheduleJob job4
 scheduleJob job5
 
-// Running the job queue
+// Running jobQueue
 for i in 0..jobQueue.Length - 1 do
   runNextJob jobQueue
