@@ -62,7 +62,7 @@ let runNextJob (queue : list<Job>) : unit =
                   if h.HasPriority then
                     printfn "\nThere was no priority job in the queue older than %A. Waiting..." (DateTime.Now.AddSeconds -5.0)
                   else 
-                    printfn "\nThere was job in the queue older than %A. Waiting..." (DateTime.Now.AddSeconds -5.0)
+                    printfn "\nThere was no job in the queue older than %A. Waiting..." (DateTime.Now.AddSeconds -5.0)
                   Thread.Sleep(5000)
                   NextJob q
 
