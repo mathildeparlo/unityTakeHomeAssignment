@@ -54,32 +54,31 @@ let runNextJob (queue : list<Job>) : unit =
   let rec NextJob (q: list<Job>) : unit = 
 
     match q with
-      | h::t -> if DateTime.Compare (h.Submitted, now.AddSeconds -5.0) <> 1 then
+      | h::t -> if DateTime.Compare (h.Submitted, DateTime.Now.AddSeconds -5.0) <> 1 then
                   jobQueue <- tempQueue @ t
                   printfn "\nRunning job %A and waiting %A seconds\n" h.Id h.Duration
                   Thread.Sleep(h.Duration * 1000)
-
-                elif h.HasPriority then
-                  tempQueue <- tempQueue @ [h]
-                  NextJob t
                 else
-                  jobQueue <- tempQueue @ q
-                  printfn "\nThere was no job in the queue older than 5 sec. Try again soon :-)"
+                  if h.HasPriority then
+                    printfn "\nThere was no priority job in the queue older than %A. Waiting..." (DateTime.Now.AddSeconds -5.0)
+                  else 
+                    printfn "\nThere was job in the queue older than %A. Waiting..." (DateTime.Now.AddSeconds -5.0)
+                  Thread.Sleep(5000)
+                  NextJob q
 
       | [] -> printfn "\nThere are no scheduled jobs"
 
   NextJob timeSortedQueue
 
 
-
 /// ----main----
 
 /// Creating jobs
-let job1 = Job(1, 3, true, new DateTime (2021, 11, 20, 12, 12, 1))
-let job2 = Job(2, 2, false, new DateTime (2021, 11, 20, 12, 12, 10))
-let job3 = Job(3, 5, false, new DateTime (2021, 11, 20, 12, 12, 3))
-let job4 = Job(4, 4, false, new DateTime (2021, 11, 20, 12, 12, 4))
-let job5 = Job(5, 1, true, new DateTime (2021, 11, 20, 12, 12, 5))
+let job1 = Job(1, 3, true, DateTime.Now)
+let job2 = Job(2, 2, false, DateTime.Now)
+let job3 = Job(3, 5, false, DateTime.Now)
+let job4 = Job(4, 4, false, new DateTime(2021, 11, 22, 10, 10, 10))
+let job5 = Job(5, 1, true, DateTime.Now)
 
 // Scheduling jobs for the JobQueue
 scheduleJob job1
